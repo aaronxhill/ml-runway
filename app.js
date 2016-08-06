@@ -49,7 +49,7 @@ function processResponse(error, response, body) {
 
             webshot(info.last_event.image_url, 'temp.png', ssOptions, function(err) {
                 if (err) {
-                    console.log(err)
+                    console.log(err);
                 }
                 var foto = fs.createReadStream('temp.png');
                 s3bucket.upload({
@@ -101,14 +101,15 @@ function saveIndex() {
             console.log(err);
         }
         else {
-            var toWrite = '<!doctype html><html><head><title>Hello, S3!</title><meta name="description" content="S3"><meta charset="utf-8"></head><body>';
-            for (var i = 1; i < data.Contents.length + 1; i++) {
+            var toWrite = '<!doctype html><html><head><title>S3 F$ Runway Photos (20)</title><meta name="F$ runway photos in S3; 20 most recent" content="S3"><meta charset="utf-8"></head><body>';
+            // for (var i = 1; i < data.Contents.length + 1; i++) {
+            for (var i = 1; i < 22; i++) {
                 if (data.Contents[data.Contents.length - i].Key != 'index.html') {
                     toWrite = toWrite + "<img src='http://ml-runway.s3-website-us-east-1.amazonaws.com/" + data.Contents[data.Contents.length - i].Key + "'/>";
                 }
             }
         }
-        toWrite = toWrite + "</body></html>"
+        toWrite = toWrite + "</body></html>";
         s3bucket.upload({
             Key: 'index.html',
             Body: toWrite,
