@@ -40,6 +40,7 @@ function processResponse(error, response, body) {
 
     } // if error
     else {
+        console.log('no go', JSON.stringify(response));
         // console.log('NOT LOGGED! Response status code: ', response.statusCode, 'Error: ', error);
     }
 }
@@ -51,4 +52,4 @@ function iterator() {
     request(nestOptions, processResponse);
 }
 
-setInterval(iterator, 30000);
+setInterval(iterator, 10000);
