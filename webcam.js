@@ -32,7 +32,22 @@ function processResponse(error, response, body) {
                 console.log(err);
             }
             else {
-                console.log('saved foto');
+                var imagemin = require('imagemin');
+                var imageminMozjpeg = require('imagemin-mozjpeg');
+                var imageminPngquant = require('imagemin-pngquant');
+                 
+                imagemin(['now.png'], 'build/images', {
+                    plugins: [
+                        imageminMozjpeg({targa: true}),
+                        imageminPngquant({quality: '65-80'})
+                    ]
+                }).then(files => {
+                    fs.writeFile('now-min.png', files[0].data, (err) => {
+                        if (err) throw err;
+                        console.log('done');
+                    });
+                });
+
             }
 
         }); // webshot 
