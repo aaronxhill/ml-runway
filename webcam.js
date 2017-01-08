@@ -40,7 +40,7 @@ function processResponse(error, response, body) {
 
     } // if error
     else {
-        console.log('NOT LOGGED! Response status code: ', response.statusCode, 'Error: ', error);
+        // console.log('NOT LOGGED! Response status code: ', response.statusCode, 'Error: ', error);
     }
 }
 
