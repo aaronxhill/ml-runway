@@ -2,6 +2,7 @@ var fs = require('fs');
 var request = require('request');
 var webshot = require('webshot');
 var AWS = require('aws-sdk');
+var Client = require('ftp');
 
 // OPTIONS
 
@@ -20,6 +21,11 @@ var ssOptions = {
         height: 360
     }
 };
+
+var connectParams = {};
+connectParams.host = 'webcam.wunderground.com';
+connectParams.user = 'FlyingDollarCAM1';
+connectParams.password = process.env.WUNDG_PW; 
 
 // PROCESS RESPONSE
 
@@ -44,7 +50,15 @@ function processResponse(error, response, body) {
                 }).then(files => {
                     fs.writeFile('now-min.png', files[0].data, (err) => {
                         if (err) throw err;
-                        console.log('done');
+                        var c = new Client();
+                        c.on('ready', function() {
+                        c.put('now-min.png', 'now-min.png', function(err) {
+                          if (err) {console.log(err)}
+                          c.end();
+                        });
+                        });
+                        c.connect(connectParams);
+
                     });
                 });
 
@@ -65,8 +79,7 @@ function processResponse(error, response, body) {
 // ITERATE
 
 function iterator() {
-    console.log(process.env.RUNWAY_URL);
     request(nestOptions, processResponse);
 }
 
-setInterval(iterator, 10000);
+setInterval(iterator, 120000);
