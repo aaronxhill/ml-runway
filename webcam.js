@@ -27,14 +27,15 @@ function processResponse(error, response, body) {
     if (!error && response.statusCode == 200) {
         var info = JSON.parse(body);
 
-        console.log(JSON.stringify(info));
+        webshot(info.snapshot_url, 'now.png', ssOptions, function(err) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                console.log('saved foto');
+            }
 
-        // webshot(info.last_event.image_url, 'now.png', ssOptions, function(err) {
-        //     if (err) {
-        //         console.log(err);
-        //     }
-
-        // }); // webshot 
+        }); // webshot 
 
         // else {console.log('Request error: Response status code: ', response.statusCode, 'Error: ', error);}
 
@@ -49,6 +50,7 @@ function processResponse(error, response, body) {
 // ITERATE
 
 function iterator() {
+    console.log(process.env.RUNWAY_URL);
     request(nestOptions, processResponse);
 }
 
