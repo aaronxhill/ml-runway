@@ -5,8 +5,8 @@ var AWS = require('aws-sdk');
 var winston = require('winston');
 var mailcomposer = require('mailcomposer');
 
-//var serverStart = new Date();
-//var cellNumbers = ["+19172541441", "+16462984753"];
+var serverStart = new Date();
+var cellNumbers = ["+19172541441", "+16462984753"];
 
 // OPTIONS
 
@@ -69,10 +69,10 @@ function processResponse(error, response, body) {
                         saveIndex();
 			// AI AND EMAIL AND MMS
 			getLabels(info.last_event.start_time.replace('.', '_'))
-			//if ((new Date() - serverStart) > 120000) {
-			//	sendMms(info.last_event.start_time.replace('.', '_'))
-                   // }
-                });
+			if ((new Date() - serverStart) > 120000) {
+				sendMms(info.last_event.start_time.replace('.', '_'))
+                    }
+                }});
             });
 
 
@@ -240,7 +240,21 @@ function emailNoPlane(foto) {
 }
 
 // TWILIO
-
+function sendMms (foto) {
+	var client = require('twilio')(process.env.TWILIO_ACCOUNTSID, process.env.TWILIO_AUTHTOKEN); 
+	var fotoUrl = "http://ml-runway.s3-website-us-east-1.amazonaws.com/" + foto; 
+	
+		for (var i=0; i<cellNumbers.length; i++) { 
+			client.messages.create({ 
+			    to: cellNumbers[i], 
+			    from: "+19177088720", 
+			    body: "Flying Dollar has a visitor!", 
+			    mediaUrl: fotoUrl,  
+			}, function(err, message) { 
+			    console.log(message.sid); 
+			});
+		}
+}
 
 // ITERATE
 
