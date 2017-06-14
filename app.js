@@ -6,6 +6,7 @@ var winston = require('winston');
 var mailcomposer = require('mailcomposer');
 
 var serverStart = new Date();
+
 //var cellNumbers = ["+19172541441", "+16462984753", "+16015068935", "+19737148364"];
 var cellNumbers = ["+19172541441", "+16462984753"];
 
