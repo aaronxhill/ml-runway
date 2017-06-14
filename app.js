@@ -6,6 +6,7 @@ var winston = require('winston');
 var mailcomposer = require('mailcomposer');
 
 var serverStart = new Date();
+//var cellNumbers = ["+19172541441", "+16462984753", "+16015068935", "+19737148364"];
 var cellNumbers = ["+19172541441", "+16462984753"];
 
 // OPTIONS
@@ -68,9 +69,9 @@ function processResponse(error, response, body) {
                         winston.info("uploaded new image: ", info.last_event.start_time);
                         saveIndex();
 			// AI AND EMAIL AND MMS
-			getLabels(info.last_event.start_time.replace('.', '_'))
 			if ((new Date() - serverStart) > 120000) {
-				sendMms(info.last_event.start_time.replace('.', '_'))
+				//sendMms(info.last_event.start_time.replace('.', '_'))
+				getLabels(info.last_event.start_time.replace('.', '_'))
                     }
                 }});
             });
@@ -148,7 +149,7 @@ function getLabels(imageName) {
             }
         },
         MaxLabels: 123,
-        MinConfidence: 55
+        MinConfidence: 60
     };
     rekognition.detectLabels(params, function(err, data) {
         if (err) winston.info(err, err.stack); // an error occurred
@@ -165,6 +166,7 @@ function getLabels(imageName) {
             }
             if (hasPlane == true) {
                 emailPlane(imageName)
+		sendMms(imageName)
             }
             else {
                 emailNoPlane(imageName)
