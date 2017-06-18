@@ -99,7 +99,7 @@ sendMms: function (foto, cellNumbers) {
 			    mediaUrl: fotoUrl,  
 			}, function(err, message) { 
                 if (err) {winston.info("COMM: Twilio client.messages.create error: ", err))}
-                else {console.log(message.sid); }
+                else {winston.info(message.sid); }
 			});
 		}
 }
