@@ -175,7 +175,7 @@ function getLabels(imageName) {
             }
             // here is where you should insert the new record
             var params = {
-                TableName: rekLabels,
+                TableName: "rekLabels",
                 Item:{
                     "imageName": imageName,
                     "awsLabel": hasPlane,
