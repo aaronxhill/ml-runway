@@ -98,7 +98,7 @@ sendMms: function (foto, cellNumbers) {
 			    body: "Flying Dollar has a visitor!", 
 			    mediaUrl: fotoUrl,  
 			}, function(err, message) { 
-                if (err) {winston.info("COMM: Twilio client.messages.create error: ", err))}
+                if (err) {winston.info("COMM: Twilio client.messages.create error: ", err)}
                 else {winston.info(message.sid); }
 			});
 		}
