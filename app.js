@@ -25,6 +25,7 @@ winston.add(
 winston.log('info', 'Server restarted');
 
 AWS.config.region = 'us-east-1';
+var docClient = new AWS.DynamoDB.DocumentClient();
 
 var nestOptions = {
     url: process.env.RUNWAY_URL,
@@ -171,6 +172,25 @@ function getLabels(imageName) {
             else {
                 comm.emailPlane(imageName, false);
             }
+            // here is where you should insert the new record
+            var params = {
+                TableName: rekLabels,
+                Item:{
+                    "imageName": imageName,
+                    "awsLabel": hasPlane,
+                    "awsMaybe": maybePlane,
+                    "userUpdate": false
+                }
+            };
+
+            console.log("Adding a new item...");
+            docClient.put(xparams, function(err, data) {
+                if (err) {
+                    console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
+                } else {
+                    console.log("Added item:", JSON.stringify(data, null, 2));
+                }
+            });
 
         }; // successful response
     });
