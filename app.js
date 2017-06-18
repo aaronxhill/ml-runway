@@ -184,8 +184,8 @@ function getLabels(imageName) {
                 }
             };
 
-            console.log("Adding a new item...");
-            docClient.put(xparams, function(err, data) {
+            // console.log("Adding a new item...");
+            docClient.put(params, function(err, data) {
                 if (err) {
                     winston.info("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
                 } else {
