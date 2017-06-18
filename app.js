@@ -44,7 +44,8 @@ var ssOptions = {
 // PROCESS RESPONSE
 
 function processResponse(error, response, body) {
-    if (!error && response.statusCode == 200) {
+    if (error) {winston.info("Error, top level processResponse: ", error)}
+    else if (!error && response.statusCode == 200) {
         var info = JSON.parse(body);
         if (info.last_event.start_time != process.env.RUNWAY_CAM_LAST) {
             process.env.RUNWAY_CAM_LAST = info.last_event.start_time;
@@ -57,7 +58,7 @@ function processResponse(error, response, body) {
 
             webshot(info.last_event.image_url, 'temp.png', ssOptions, function(err) {
                 if (err) {
-                    console.log(err);
+                    winston.info("WEBSHOT top level error: ", err);
                 }
                 var foto = fs.createReadStream('temp.png');
                 s3bucket.upload({
@@ -65,7 +66,7 @@ function processResponse(error, response, body) {
                     Body: foto
                 }, function(err, data) {
                     if (err) {
-                        console.log(err);
+                        winston.info("S3 Bucket upload error: ", err);
                     }
                     else {
                         winston.info("uploaded new image: ", info.last_event.start_time);
@@ -145,7 +146,7 @@ function getLabels(imageName) {
         MinConfidence: 30
     };
     rekognition.detectLabels(params, function(err, data) {
-        if (err) winston.info(err, err.stack); // an error occurred
+        if (err) winston.info("TOP LEVEL REK ERROR: ", err, err.stack); // an error occurred
         else {
             // plane logic here
             var hasPlane = false;
@@ -186,9 +187,9 @@ function getLabels(imageName) {
             console.log("Adding a new item...");
             docClient.put(xparams, function(err, data) {
                 if (err) {
-                    console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
+                    winston.info("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
                 } else {
-                    console.log("Added item:", JSON.stringify(data, null, 2));
+                    winston.info("Added item:", JSON.stringify(data, null, 2));
                 }
             });
 

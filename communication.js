@@ -1,6 +1,7 @@
 var fs = require('fs');
 var et = fs.readFileSync('emailTemplate.txt').toString();
 var Mustache = require('mustache');
+var winston = require('winston');
 
 module.exports = {
 
@@ -77,7 +78,7 @@ emailPlane: function (foto, status) {
 
         mailgun.messages().sendMime(dataToSend, function(sendError, body) {
             if (sendError) {
-                console.log(sendError);
+                winston.info("COMM: MailGun sendMime error: ", sendError);
                 return;
             }
         });
@@ -97,7 +98,8 @@ sendMms: function (foto, cellNumbers) {
 			    body: "Flying Dollar has a visitor!", 
 			    mediaUrl: fotoUrl,  
 			}, function(err, message) { 
-			    console.log(message.sid); 
+                if (err) {winston.info("COMM: Twilio client.messages.create error: ", err))}
+                else {console.log(message.sid); }
 			});
 		}
 }
