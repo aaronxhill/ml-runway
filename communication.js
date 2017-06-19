@@ -9,7 +9,7 @@ emailPlane: function (foto, status) {
     var emailContent = [];
     var templateContent, emailSubject, output; 
     var emailTo = 'runwaycam@mg.flyingdollar.email';
-    var valKey = process.env.VALIDATION_KEY; 
+    var valKey = 'MdMhQufwtfR9DsUTr7aZy'; 
 
     emailContent[0] = new Object();
     emailContent[0].eHeader = 'Flying Dollar has a visitor!';
