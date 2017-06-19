@@ -20,15 +20,15 @@ emailPlane: function (foto, status) {
     emailContent[1].eHeader = 'Unidentified flying object!';
     emailContent[1].eMessage = "The Runway Cam detected an object that may or may not be a plane. If it is a plane, please let us know:";
     emailContent[1].eButton = "It's a plane!";
-    // emailContent[1].eUrl = 'http://ml-runway.s3-website-us-east-1.amazonaws.com/' + foto;
-    emailContent[1].eUrl = "http://www.flyingdollar.com";
+    emailContent[1].eUrl = 'http://www.medotme.me/validate?key=' + process.env.VALIDATION_KEY + '&foto=' + foto;
+    // emailContent[1].eUrl = "http://www.flyingdollar.com";
     
     emailContent[2] = new Object();
     emailContent[2].eHeader = 'Squirrels, turkeys, bears, bugs, and tractors.';
     emailContent[2].eMessage = "The Runway Cam detected an object that is unlikely to be a plane. But if it is a plane, please let us know:";
     emailContent[2].eButton = "It's a plane!";
-    // emailContent[2].eUrl = 'http://ml-runway.s3-website-us-east-1.amazonaws.com/' + foto;
-    emailContent[2].eUrl = "http://www.flyingdollar.com";
+    emailContent[2].eUrl = 'http://www.medotme.me/validate?key=' + process.env.VALIDATION_KEY + '&foto=' + foto;
+    // emailContent[2].eUrl = "http://www.flyingdollar.com";
 
 
     if (status==false) {
