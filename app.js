@@ -126,8 +126,7 @@ function getLabels(imageName) {
             }
             if (hasPlane == true) {
                 comm.emailPlane(imageName, true);
-                // emailPlane(imageName)
-                comm.sendMms(imageName)
+                comm.sendMms(imageName, cellNumbers)
             }
             else if (maybePlane == true) {
                 comm.emailPlane(imageName, null);
